@@ -8,7 +8,8 @@ placeholder-image, the product's name and price for every product.
 The attributes inside the data are just holding attribute-ids, so the list of
 the filters will also not be very pretty or usable for a "real-user" because
 nobody knowns what "material 31" is, but this is not important for this task.
-So here is a clear description of what to do:
+
+## What to do?
 
 - Create a product-list out of the provided data.
 - The list of products needs to paginated.
@@ -29,8 +30,19 @@ So here is a clear description of what to do:
 - At NO time during runtime, the application should freeze...also (especially)
   not on mobiles.
 
-The data is included inside this repository. If you have any questions,
-please feel free to contact me 😊
+## How to do?
+
+Please clone this repository and after you are done, create a .zip or a .tar.gz
+of it and send it to us.
+
+## Where is the data?
+
+The data is included inside this repository.
+You can find it inside `/data/products.json`.
+
+## Further questions?
+
+If you have any questions, please feel free to contact us at any time 😊
 
 So good luck and much fun during the development,
 Alex
