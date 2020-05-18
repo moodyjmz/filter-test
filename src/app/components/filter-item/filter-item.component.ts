@@ -29,6 +29,9 @@ export class FilterItemComponent implements OnInit {
   }
 
   onItemClick() {
+    if(!this.active && !this.available) {
+      return;
+    }
     const payload = {key: this.attr, property: this.property};
     const call = this.active ? 'removeFilter' : 'addFilter';
     this.productFilterService[call](payload);
