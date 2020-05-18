@@ -1,7 +1,7 @@
 const priceHandlerMatches = [
-    {low: 0, high: 24, label: 'under 25'},
+    {low: 0, high: 24, label: 'Under 25'},
     {low: 25, high: 50, label: '25 to 50'},
-    {low: 50, high: Infinity, label: 'over 50'}
+    {low: 50, high: Infinity, label: 'Over 50'}
 ];
 
 const getValueForAttribute = (item, key) => {
@@ -24,7 +24,7 @@ export const filterConfig = [
     {
         key: 'price',
         getValue: (item) => {
-            let label = 'unknown';
+            let label = 'Unknown';
             // for in so can break easily
             for(const match in priceHandlerMatches) {
                 const matchDetails = priceHandlerMatches[match];

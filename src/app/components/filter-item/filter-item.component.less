@@ -1,0 +1,23 @@
+:host {
+  display: inline-block;
+  margin: 1px;
+  div {
+    padding: 2px 3px;
+    background-color: dimgrey;
+    border-radius: 5px;
+    color: white;
+    min-width: 15px;
+    text-align: center;
+    font-size: .8em;
+    cursor: pointer;
+  }
+  div[available=false] {
+    opacity: .3;
+    pointer-events: none;
+    cursor: default;
+  }
+  div[active=true] {
+    background-color: green;
+    color: white;
+  }
+}
