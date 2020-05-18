@@ -16,7 +16,6 @@ export class ProductFilterService {
     private availableFilters = new Map();
     private filtersModifiedSubject = new Subject();
     private allFiltersSubject = new BehaviorSubject([]);
-    private usedFiltersSubject = new BehaviorSubject([]);
     private filteredProductsSubject = new BehaviorSubject([]);
     private activeFilterTracker = new Map();
     private filter: ProductFilter;
@@ -69,7 +68,6 @@ export class ProductFilterService {
                 properties: [...properties]
             });
         });
-        this.usedFiltersSubject.next(arr);
         this.filterProductList(arr);
         return arr;
     }
