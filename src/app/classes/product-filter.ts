@@ -1,6 +1,6 @@
 type AttributeConfig = {
   key: string;
-  getValue: (item: any) => [];
+  getValue: (item: string | [] | number) => [];
 };
 
 export type FilterGroup = {
@@ -30,7 +30,9 @@ export class ProductFilter {
 
   /**
    * Maps of items by attribute
+   *
    * Object holding Maps of Attributes
+   *
    * Each Map holds a Set of items for each property assigned
    * to an attribute
    */
@@ -38,7 +40,8 @@ export class ProductFilter {
 
   /**
    * item id > storage
-   * Use to lookup item filters without indexOf
+   *
+   * Used to lookup item filters without indexOf
    */
   private itemPropertyMap = {};
 
