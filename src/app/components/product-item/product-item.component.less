@@ -1,21 +1,24 @@
 :host {
-  display: inline-flex;
-  height: 150px;
-  width: 180px;
+  height: 200px;
+  width: 250px;
   margin: 5px;
   padding: 5px;
   box-shadow: 0 0 0 0;
-  transition: box-shadow 0.6s linear;
+  border-bottom-right-radius: 5px;
+  transition: box-shadow 0.2s ease-in;
 
   .inner {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
-
+  h5 {
+    margin-bottom: 2px;
+  }
   img {
     flex-basis: 80%;
-    height: 50%;
-    width: 50%;
+    height: 120px;
+    width: 120px;
   }
 
   .data {
@@ -24,5 +27,5 @@
 }
 
 :host(:hover) {
-  box-shadow: 0px 0px 0px 2px dimgrey;
+  box-shadow: 0 0 0 5px blue;
 }

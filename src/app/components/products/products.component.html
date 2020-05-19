@@ -3,6 +3,8 @@
 </div>
 <div class="product-list">
   <app-product-list [products]="pageSlice"></app-product-list>
-  <app-pager (threshold)="sliceData($event)" [totalItems]="filteredProducts.length"></app-pager>
+  <div class="pager">
+    <app-pager (threshold)="sliceData($event)" [totalItems]="filteredProducts.length"></app-pager>
+  </div>
 </div>
 

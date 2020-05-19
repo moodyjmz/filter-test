@@ -26,13 +26,12 @@ export class ProductsComponent implements OnInit {
     this.productFilterService.getFilteredProducts().subscribe(value => this.filteredProducts = value);
   }
 
-  buildFilter() {
+  private buildFilter(): void {
     this.productFilterService.setConfig(filterConfig);
 
   }
 
-  sliceData(threshold) {
-    console.log('sliceData');
+  public sliceData(threshold): void {
     this.pageSlice = this.filteredProducts.slice(threshold.start, threshold.end);
   }
 
