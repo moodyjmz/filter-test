@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, HostListener } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { ProductFilterService } from '../../services/product-filter.service'
 
 @Component({
@@ -12,11 +12,12 @@ export class FilterItemComponent implements OnInit {
   public available = true;
   public active = false;
 
-  @HostListener("click") onClick(){
-    this.onItemClick();
+  constructor(private productFilterService: ProductFilterService) {
   }
 
-  constructor(private productFilterService: ProductFilterService) { }
+  @HostListener("click") onClick() {
+    this.onItemClick();
+  }
 
   ngOnInit(): void {
     this.productFilterService.getFiltersModified().subscribe(this.updateState.bind(this));
@@ -29,7 +30,7 @@ export class FilterItemComponent implements OnInit {
   }
 
   onItemClick() {
-    if(!this.active && !this.available) {
+    if (!this.active && !this.available) {
       return;
     }
     const payload = {key: this.attr, property: this.property};

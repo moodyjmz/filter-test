@@ -1,6 +1,7 @@
 :host {
   display: inline-block;
   margin: 1px;
+
   div {
     padding: 2px 3px;
     background-color: dimgrey;
@@ -11,11 +12,13 @@
     font-size: .8em;
     cursor: pointer;
   }
+
   div[available=false] {
     opacity: .3;
     pointer-events: none;
     cursor: default;
   }
+
   div[active=true] {
     background-color: green;
     color: white;

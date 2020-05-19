@@ -12,7 +12,8 @@ type pageConfig = {
 })
 
 export class ProductService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   // config with page number and filter data
   public page(config?: pageConfig | undefined) {

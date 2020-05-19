@@ -1,4 +1,4 @@
 <h4>{{filter.key}}</h4>
-<ng-template ngFor let-property [ngForOf]="displayProperties">
-    <app-filter-item [property]="property" [attr]="filter.key"></app-filter-item>
+<ng-template [ngForOf]="displayProperties" let-property ngFor>
+  <app-filter-item [attr]="filter.key" [property]="property"></app-filter-item>
 </ng-template>

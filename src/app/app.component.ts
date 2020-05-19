@@ -7,7 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'list-app';
-  getData () {
+
+  getData() {
 
   }
 }

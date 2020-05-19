@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
-    selector: 'app-filter-group',
-    templateUrl: './filter-group.component.html',
-    styleUrls: ['./filter-group.component.less']
+  selector: 'app-filter-group',
+  templateUrl: './filter-group.component.html',
+  styleUrls: ['./filter-group.component.less']
 })
 
 /**
@@ -13,31 +13,30 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
  * Uses either used | available mode - determines how items are shown
  */
 export class FilterGroupComponent implements OnInit, OnChanges {
-    @Input() filter;
-    public displayProperties = [];
+  @Input() filter;
+  public displayProperties = [];
 
-    constructor() {
+  constructor() {
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (let propName in changes) {
+      switch (propName) {
+        case 'filter':
+          this.updateDisplayProperties();
+          break;
+      }
     }
-
-    ngOnInit(): void {
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        for (let propName in changes) {
-            switch (propName) {
-                case 'filter':
-                    this.updateDisplayProperties();
-                    break;
-            }
-        }
-    }
+  }
 
 
+  updateDisplayProperties() {
 
-    updateDisplayProperties() {
+    this.displayProperties = this.filter.properties;
 
-            this.displayProperties = this.filter.properties;
-
-    }
+  }
 
 }
