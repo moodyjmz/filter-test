@@ -76,7 +76,7 @@ export class ProductFilter {
    * @param config Filter config
    * @returns Array of items matching filter config
    */
-  public getFilteredData(config: FilterGroup[]): any[] {
+  public getFilteredData(config: FilterGroup[]): {}[] {
     const candidateItems = new Set();
     const setsToCheck = this.getSetsToCheck(config);
     const smallestSet = setsToCheck.shift() as Set<{}>;
@@ -99,6 +99,11 @@ export class ProductFilter {
     return [...candidateItems];
   }
 
+  /**
+   * Build list of available filters from item group
+   * @param items Items to build list from
+   * @returns Map of filter Sets
+   */
   public getAvailableFiltersFromItems(items): Map<string, Set<string | number>> {
     const tempFilterGroups = {};
     for (let key in this.attributeMaps) {

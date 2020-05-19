@@ -10,8 +10,19 @@ import { filterConfig } from '../../config/filter.config';
 })
 export class ProductsComponent implements OnInit {
 
+  /**
+   * All filters in full data
+   */
   public allFilters = [];
+
+  /**
+   * Full list of filtered products
+   */
   public filteredProducts = [];
+
+  /**
+   * Current slice derived from pager and filtered products
+   */
   public pageSlice = [];
 
   constructor(private productService: ProductService, private productFilterService: ProductFilterService) {
@@ -26,15 +37,26 @@ export class ProductsComponent implements OnInit {
     this.productFilterService.getFilteredProducts().subscribe(value => this.filteredProducts = value);
   }
 
+  /**
+   * Build the filter from the filter config
+   */
   private buildFilter(): void {
     this.productFilterService.setConfig(filterConfig);
 
   }
 
+  /**
+   * Slice filtered data when the pager changes
+   * @param threshold
+   */
   public sliceData(threshold): void {
     this.pageSlice = this.filteredProducts.slice(threshold.start, threshold.end);
   }
 
+  /**
+   * Populate the filter with the data from the product service
+   * @param items Items from product service
+   */
   private populateFilter(items): void {
     this.productFilterService.setData(items);
   }

@@ -7,9 +7,26 @@ import { ProductFilterService } from '../../services/product-filter.service'
   styleUrls: ['./filter-item.component.less']
 })
 export class FilterItemComponent implements OnInit {
+  /**
+   * Filter property
+   */
   @Input() property;
+
+  /**
+   * Filter attribute name
+   */
   @Input() attr;
+
+  /**
+   * Flag for presentation attribute - is clickable
+   */
   public available = true;
+
+  /**
+   * Flag for presentation attribute - is active
+   *
+   * Determines how element click is handled
+   */
   public active = false;
 
   constructor(private productFilterService: ProductFilterService) {
@@ -23,13 +40,23 @@ export class FilterItemComponent implements OnInit {
     this.productFilterService.getFiltersModified().subscribe(this.updateState.bind(this));
   }
 
-  updateState() {
+  /**
+   * Update the active and available states of this property
+   * @returns {void}
+   */
+  private updateState(): void {
     const state = this.productFilterService.getPropertyItemState(this.attr, this.property);
     this.active = state.active;
     this.available = state.available;
   }
 
-  onItemClick() {
+  /**
+   * Handle a click on this property
+   *
+   * Calls the Product Filter Service to add or remove property from filter
+   * @returns {void}
+   */
+  public onItemClick(): void {
     if (!this.active && !this.available) {
       return;
     }
