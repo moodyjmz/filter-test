@@ -108,7 +108,7 @@ export class ProductFilterService {
     }
     this._modTracker = !this._modTracker;
     this.filtersModifiedSubject.next(this._modTracker);
-    this.filteredProductsSubject.next(source.slice(0, 96));
+    this.filteredProductsSubject.next(source);
 
 
   }

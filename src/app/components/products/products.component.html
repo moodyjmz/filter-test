@@ -2,6 +2,7 @@
   <app-filters [filters]="allFilters"></app-filters>
 </div>
 <div class="product-list">
-  <app-product-list [products]="filteredProducts"></app-product-list>
+  <app-product-list [products]="pageSlice"></app-product-list>
+  <app-pager (threshold)="sliceData($event)" [totalItems]="filteredProducts.length"></app-pager>
 </div>
 

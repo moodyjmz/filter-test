@@ -12,7 +12,9 @@
           "/manifest.webmanifest",
           "/*.css",
           "/*.js",
-          "/*.json"
+          "/assets/imgs/*.png",
+          "/assets/data/*.json"
+
         ]
       }
     }, {

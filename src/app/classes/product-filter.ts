@@ -17,7 +17,9 @@ type AttributeMap = Map<string, Set<object>>;
 /**
  * Filters products using config
  *
- * Provides list of available filters
+ * Provides list of filters and products
+ * Tracks filter usage and provides hooks for
+ * presentation layer to determine state
  */
 export class ProductFilter {
 
@@ -61,7 +63,7 @@ export class ProductFilter {
   public get allFilters(): FilterGroup[] {
     const filters = [];
     for (let key in this.attributeMaps) {
-      filters.push(this.makeFilterGroup(key, this.attributeMaps[key]));
+      filters.push(this.constructFilterGroup(key, this.attributeMaps[key]));
     }
     return filters;
   }
@@ -74,7 +76,7 @@ export class ProductFilter {
   public getFilteredData(config: FilterGroup[]): any[] {
     const candidateItems = new Set();
     const setsToCheck = this.getSetsToCheck(config);
-    const smallestSet = setsToCheck.shift() as Set<object>;
+    const smallestSet = setsToCheck.shift() as Set<{}>;
 
     // smallestSet is still a reference to a stored set
     // so we copy it
@@ -84,8 +86,8 @@ export class ProductFilter {
 
     // go through smallest set, testing against each other set
     // candidateItems will shrink
-    candidateItems.forEach((item: object) => {
-      setsToCheck.forEach((set: Set<object>) => {
+    candidateItems.forEach((item: {}) => {
+      setsToCheck.forEach((set: Set<{}>) => {
         if (!set.has(item)) {
           candidateItems.delete(item);
         }
@@ -118,7 +120,14 @@ export class ProductFilter {
     return filterGroups;
   }
 
-  private makeFilterGroup(key, attrMap: AttributeMap): FilterGroup {
+  /**
+   * Construct filter group
+   * Groups all properties used by filter type
+   * @param key Filter name
+   * @param attrMap Attribute map to construct from
+   * @returns {@link FilterGroup}
+   */
+  private constructFilterGroup(key, attrMap: AttributeMap): FilterGroup {
     const filterGroup: FilterGroup = {key: key, properties: []};
     attrMap.forEach((group, key) => {
       filterGroup.properties.push(key);
@@ -161,6 +170,13 @@ export class ProductFilter {
     });
   }
 
+  /**
+   * Cache item attribute properties by item.id
+   * @param item Item to use
+   * @param attrKey Attribute key
+   * @param properties Properties to cache
+   * @returns {void}
+   */
   private cacheItemProperties(item, attrKey, properties): void {
     if (!this.itemPropertyMap[item.id]) {
       this.itemPropertyMap[item.id] = {};
@@ -207,7 +223,7 @@ export class ProductFilter {
    * @param config Filter applied
    * @returns Array of sets matching, smallest first
    */
-  private getSetsToCheck(config: FilterGroup[]): any[] {
+  private getSetsToCheck(config: FilterGroup[]): Set<{}>[] {
     const setsToCheck = [];
     config.forEach((filterConfig) => {
       const attrGroup = this.attributeMaps[filterConfig.key];

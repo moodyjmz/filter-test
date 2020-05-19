@@ -12,15 +12,18 @@ export class ProductsComponent implements OnInit {
 
   public allFilters = [];
   public filteredProducts = [];
+  public pageSlice = [];
 
   constructor(private productService: ProductService, private productFilterService: ProductFilterService) {
-    this.buildFilter();
   }
 
   ngOnInit(): void {
+    this.buildFilter();
     this.productService.page().subscribe((data: { items }) => {
       this.populateFilter(data.items);
     });
+    this.productFilterService.getAllFilters().subscribe(value => this.allFilters = value);
+    this.productFilterService.getFilteredProducts().subscribe(value => this.filteredProducts = value);
   }
 
   buildFilter() {
@@ -28,10 +31,13 @@ export class ProductsComponent implements OnInit {
 
   }
 
-  populateFilter(items) {
+  sliceData(threshold) {
+    console.log('sliceData');
+    this.pageSlice = this.filteredProducts.slice(threshold.start, threshold.end);
+  }
+
+  private populateFilter(items): void {
     this.productFilterService.setData(items);
-    this.productFilterService.getAllFilters().subscribe(value => this.allFilters = value);
-    this.productFilterService.getFilteredProducts().subscribe(value => this.filteredProducts = value);
   }
 
 }
