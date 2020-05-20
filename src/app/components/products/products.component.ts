@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service'
 import { ProductFilterService } from '../../services/product-filter.service'
 import { filterConfig } from '../../config/filter.config';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -14,7 +15,7 @@ import { filterConfig } from '../../config/filter.config';
  *
  * Bridges between {@link ProductFilterService} and {@link ProductService}
  */
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
 
   /**
    * All filters in full data
@@ -31,16 +32,22 @@ export class ProductsComponent implements OnInit {
    */
   public pageSlice = [];
 
+  private productServiceSubscriber: Subscription;
+
+  private productFilterServiceFiltersSubscriber: Subscription;
+
+  private productFilterServiceProductsSubscriber: Subscription;
+
   constructor (private productService: ProductService, private productFilterService: ProductFilterService) {
   }
 
   ngOnInit (): void {
     this.buildFilter();
-    this.productService.fetch().subscribe((data: { items }) => {
+    this.productServiceSubscriber = this.productService.fetch().subscribe((data: { items }) => {
       this.populateFilter(data.items);
     });
-    this.productFilterService.getAllFilters().subscribe(value => this.allFilters = value);
-    this.productFilterService.getFilteredProducts().subscribe(value => this.filteredProducts = value);
+    this.productFilterServiceFiltersSubscriber = this.productFilterService.getAllFilters().subscribe(value => this.allFilters = value);
+    this.productFilterServiceProductsSubscriber = this.productFilterService.getFilteredProducts().subscribe(value => this.filteredProducts = value);
   }
 
   /**
@@ -65,6 +72,12 @@ export class ProductsComponent implements OnInit {
    */
   private populateFilter (items): void {
     this.productFilterService.setData(items);
+  }
+
+  ngOnDestroy (): void {
+    this.productServiceSubscriber.unsubscribe();
+    this.productFilterServiceFiltersSubscriber.unsubscribe();
+    this.productFilterServiceProductsSubscriber.unsubscribe();
   }
 
 }
