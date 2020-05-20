@@ -8,6 +8,12 @@ import { filterConfig } from '../../config/filter.config';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.less']
 })
+
+/**
+ * Presents products and filters
+ *
+ * Bridges between {@link ProductFilterService} and {@link ProductService}
+ */
 export class ProductsComponent implements OnInit {
 
   /**
@@ -30,7 +36,7 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildFilter();
-    this.productService.page().subscribe((data: { items }) => {
+    this.productService.fetch().subscribe((data: { items }) => {
       this.populateFilter(data.items);
     });
     this.productFilterService.getAllFilters().subscribe(value => this.allFilters = value);

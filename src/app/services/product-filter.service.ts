@@ -10,9 +10,27 @@ type PropertyItemState = {
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * Extrapolates filters from product data
+ *
+ * Provides API to maintain and apply filters to products
+ */
 export class ProductFilterService {
-  public data = [];
+
+  /**
+   * Internal reference to product data
+   */
+  public _data = [];
+
+  /**
+   * Boolean toogle for firing modification event
+   */
   private _modTracker = true;
+
+  /**
+   * Map of available filters
+   */
   private availableFilters = new Map();
   private filtersModifiedSubject = new Subject();
   private allFiltersSubject = new BehaviorSubject([]);
@@ -25,7 +43,7 @@ export class ProductFilterService {
   }
 
   setData(data) {
-    this.data = data;
+    this._data = data;
     this.filter.data = data;
     this.allFiltersSubject.next(this.filter.allFilters);
     this.updateUsedFilters();
@@ -102,7 +120,7 @@ export class ProductFilterService {
   }
 
   private filterProductList(arr) {
-    const source = arr.length ? this.filter.getFilteredData(arr) : this.data;
+    const source = arr.length ? this.filter.getFilteredData(arr) : this._data;
     if (this.activeFilterTracker.size) {
       this.availableFilters = this.filter.getAvailableFiltersFromItems(source);
     }

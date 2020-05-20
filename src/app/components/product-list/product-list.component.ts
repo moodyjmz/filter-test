@@ -5,6 +5,10 @@ import { Component, Input } from '@angular/core';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.less']
 })
+
+/**
+ * List products
+ */
 export class ProductListComponent {
   /**
    * products to display

@@ -6,6 +6,12 @@ import { ProductFilterService } from '../../services/product-filter.service'
   templateUrl: './filter-item.component.html',
   styleUrls: ['./filter-item.component.less']
 })
+
+/**
+ * Presents an individual filter property
+ *
+ * Connects to {@link ProductFilterService} for updating
+ */
 export class FilterItemComponent implements OnInit {
   /**
    * Filter property

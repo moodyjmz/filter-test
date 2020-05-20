@@ -10,6 +10,10 @@ type ThresholdEvent = {
   templateUrl: './pager.component.html',
   styleUrls: ['./pager.component.less']
 })
+
+/**
+ * Simple google style paginator
+ */
 export class PagerComponent implements OnChanges {
   @Input() totalItems: number;
   @Input() pageSize: number = 96;

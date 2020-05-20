@@ -10,7 +10,6 @@ import { Component, Input } from '@angular/core';
  * Filter group
  *
  * Displays list of filter-items
- * Uses either used | available mode - determines how items are shown
  */
 export class FilterGroupComponent{
   @Input() filter;
