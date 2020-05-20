@@ -164,7 +164,7 @@ export class ProductFilterService {
    * Get property active state
    * @param key Filter key
    * @param property Property value
-   * @return Active state
+   * @returns Active state
    */
   private isAttributePropertyActive (key, property): boolean {
     // Could be shared with Attr checker
@@ -181,7 +181,7 @@ export class ProductFilterService {
    * Get property available state
    * @param key Filter key
    * @param property Property value
-   * @return Available state
+   * @returns Available state
    */
   private isAttributePropertyAvailable (key, property) {
     if (this.activeFilterTracker.size) {
@@ -196,7 +196,7 @@ export class ProductFilterService {
   /**
    * Filter the product list and update observables
    * @param arr Product list to use for updates
-   * @return {void}
+   * @returns {void}
    */
   private filterProductList (arr): void {
     const source = arr.length ? this.filter.getFilteredData(arr) : this._data;
@@ -213,7 +213,7 @@ export class ProductFilterService {
   /**
    * Get the filter group for a key
    * @param key filter attribute key
-   * @return Filter group for key
+   * @returns Filter group for key
    */
   private getUsedFilterGroup (key): Set<FilterGroup> {
     let group = this.activeFilterTracker.get(key);
