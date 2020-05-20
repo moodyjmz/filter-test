@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductFilter } from "../classes/product-filter";
+import { ProductFilter } from '../classes/product-filter';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 type PropertyItemState = {
@@ -38,11 +38,11 @@ export class ProductFilterService {
   private activeFilterTracker = new Map();
   private filter: ProductFilter;
 
-  setConfig(config) {
+  setConfig (config) {
     this.filter = new ProductFilter(config);
   }
 
-  setData(data) {
+  setData (data) {
     this._data = data;
     this.filter.data = data;
     this.allFiltersSubject.next(this.filter.allFilters);
@@ -50,25 +50,25 @@ export class ProductFilterService {
 
   }
 
-  getAllFilters() {
+  getAllFilters () {
     return this.allFiltersSubject.asObservable();
   }
 
-  getFilteredProducts() {
+  getFilteredProducts () {
     return this.filteredProductsSubject.asObservable();
   }
 
-  getFiltersModified() {
+  getFiltersModified () {
     return this.filtersModifiedSubject.asObservable();
   }
 
-  public addFilter(filterConf) {
+  public addFilter (filterConf) {
     const group = this.getUsedFilterGroup(filterConf.key);
     group.add(filterConf.property);
     this.updateUsedFilters();
   }
 
-  public removeFilter(filterConf) {
+  public removeFilter (filterConf) {
     const group = this.getUsedFilterGroup(filterConf.key);
     group.delete(filterConf.property);
     if (group.size === 0) {
@@ -77,7 +77,7 @@ export class ProductFilterService {
     this.updateUsedFilters();
   }
 
-  public getPropertyItemState(key, property): PropertyItemState {
+  public getPropertyItemState (key, property): PropertyItemState {
     const active = this.isAttributePropertyActive(key, property);
     let available = true;
     if (!active) {
@@ -89,7 +89,7 @@ export class ProductFilterService {
     };
   }
 
-  private updateUsedFilters() {
+  private updateUsedFilters () {
     const arr = [];
     this.activeFilterTracker.forEach((properties, key) => {
       arr.push({
@@ -101,7 +101,7 @@ export class ProductFilterService {
     return arr;
   }
 
-  private isAttributePropertyActive(key, property) {
+  private isAttributePropertyActive (key, property) {
     const keyMap = this.activeFilterTracker.get(key);
     if (keyMap !== undefined) {
       return keyMap.has(property);
@@ -109,7 +109,7 @@ export class ProductFilterService {
     return false;
   }
 
-  private isAttributePropertyAvailable(key, property) {
+  private isAttributePropertyAvailable (key, property) {
     if (this.activeFilterTracker.size) {
       const propSet = this.availableFilters.get(key);
       if (propSet !== undefined) {
@@ -119,7 +119,7 @@ export class ProductFilterService {
     return true;
   }
 
-  private filterProductList(arr) {
+  private filterProductList (arr) {
     const source = arr.length ? this.filter.getFilteredData(arr) : this._data;
     if (this.activeFilterTracker.size) {
       this.availableFilters = this.filter.getAvailableFiltersFromItems(source);
@@ -132,7 +132,7 @@ export class ProductFilterService {
   }
 
 
-  private getUsedFilterGroup(key) {
+  private getUsedFilterGroup (key) {
     let group = this.activeFilterTracker.get(key);
     if (group === undefined) {
       this.activeFilterTracker.set(key, new Set());

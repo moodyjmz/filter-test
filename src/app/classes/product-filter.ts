@@ -56,7 +56,7 @@ export class ProductFilter {
    */
   private itemPropertyMap = {};
 
-  constructor(config: AttributeConfig[]) {
+  constructor (config: AttributeConfig[]) {
     this.config = config;
     this.createAttributeLookupMaps(config);
   }
@@ -65,7 +65,7 @@ export class ProductFilter {
    * Set data to create filters from
    * @param data Product items
    */
-  public set data(data) {
+  public set data (data) {
     // console.time('PF import');
     data.forEach(this.initItemFilterValues, this);
     // console.timeEnd('PF import');
@@ -74,7 +74,7 @@ export class ProductFilter {
   /**
    *
    */
-  public get allFilters(): FilterGroup[] {
+  public get allFilters (): FilterGroup[] {
     const filters = [];
     for (let key in this.attributeMaps) {
       filters.push(this.constructFilterGroup(key, this.attributeMaps[key]));
@@ -87,7 +87,7 @@ export class ProductFilter {
    * @param config Filter config
    * @returns Array of items matching filter config
    */
-  public getFilteredData(config: FilterGroup[]): Product[] {
+  public getFilteredData (config: FilterGroup[]): Product[] {
     const candidateItems: Set<Product> = new Set();
     const setsToCheck = this.getSetsToCheck(config);
     const smallestSet = setsToCheck.shift() as Set<Product>;
@@ -115,7 +115,7 @@ export class ProductFilter {
    * @param items Items to build list from
    * @returns Map of filter Sets
    */
-  public getAvailableFiltersFromItems(items: Product[]): Map<string, Set<string | number>> {
+  public getAvailableFiltersFromItems (items: Product[]): Map<string, Set<string | number>> {
     const tempFilterGroups = {};
     for (let key in this.attributeMaps) {
       // use array as don't care about duplicates
@@ -146,8 +146,8 @@ export class ProductFilter {
    * @param attrMap Attribute map to construct from
    * @returns {@link FilterGroup}
    */
-  private constructFilterGroup(key: string, attrMap: AttributeMap): FilterGroup {
-    const filterGroup: FilterGroup = {key: key, properties: []};
+  private constructFilterGroup (key: string, attrMap: AttributeMap): FilterGroup {
+    const filterGroup: FilterGroup = { key: key, properties: [] };
     attrMap.forEach((group, key) => {
       filterGroup.properties.push(key);
     });
@@ -159,7 +159,7 @@ export class ProductFilter {
    * @param config Config to use
    * @returns {void}
    */
-  private createAttributeLookupMaps(config: AttributeConfig[]): void {
+  private createAttributeLookupMaps (config: AttributeConfig[]): void {
     config.forEach(this.createAttributeMap, this);
   }
 
@@ -168,10 +168,11 @@ export class ProductFilter {
    * @param attrConfig Attribute config
    * @returns {void}
    */
-  private createAttributeMap(attrConfig: AttributeConfig): void {
+  private createAttributeMap (attrConfig: AttributeConfig): void {
     if (this.attributeMaps[attrConfig.key]) {
       this.attributeMaps[attrConfig.key].clear();
-    } else {
+    }
+    else {
       this.attributeMaps[attrConfig.key] = new Map();
     }
   }
@@ -183,7 +184,7 @@ export class ProductFilter {
    * @param item Item to place into properties sets
    * @returns {void}
    */
-  private associatePropertiesAndItem(attrKey: string, properties: [], item: Product): void {
+  private associatePropertiesAndItem (attrKey: string, properties: [], item: Product): void {
     properties.forEach((property) => {
       this.addItemToPropertySet(this.attributeMaps[attrKey], property, item);
     });
@@ -196,7 +197,7 @@ export class ProductFilter {
    * @param properties Properties to cache
    * @returns {void}
    */
-  private cacheItemProperties(item: Product, attrKey: string, properties: []): void {
+  private cacheItemProperties (item: Product, attrKey: string, properties: []): void {
     if (!this.itemPropertyMap[item.id]) {
       this.itemPropertyMap[item.id] = {};
     }
@@ -210,7 +211,7 @@ export class ProductFilter {
    * @param item Item to place into property Set
    * @returns {void}
    */
-  private addItemToPropertySet(attrMap: AttributeMap, property: string, item: Product): void {
+  private addItemToPropertySet (attrMap: AttributeMap, property: string, item: Product): void {
     // get/has are almost identical, both iterate, so we can save some lookups
     let propertySet = attrMap.get(property);
     if (propertySet === undefined) {
@@ -226,7 +227,7 @@ export class ProductFilter {
    * @param item Item to extract and associate
    * @returns {void}
    */
-  private initItemFilterValues(item: Product): void {
+  private initItemFilterValues (item: Product): void {
     this.config.forEach((attrConfig: AttributeConfig) => {
       const properties = attrConfig.getValue(item);
       if (properties) {
@@ -242,7 +243,7 @@ export class ProductFilter {
    * @param config Filter applied
    * @returns Array of sets matching, smallest first
    */
-  private getSetsToCheck(config: FilterGroup[]): Set<Product>[] {
+  private getSetsToCheck (config: FilterGroup[]): Set<Product>[] {
     const setsToCheck = [];
     config.forEach((filterConfig) => {
       const attrGroup = this.attributeMaps[filterConfig.key];
@@ -251,10 +252,12 @@ export class ProductFilter {
         if (setsToCheck.length) {
           if (smallestCandidateSet.size < setsToCheck[0].size) {
             setsToCheck.unshift(smallestCandidateSet);
-          } else {
+          }
+          else {
             setsToCheck.push(smallestCandidateSet);
           }
-        } else {
+        }
+        else {
           setsToCheck.push(smallestCandidateSet);
         }
       });

@@ -11,6 +11,6 @@ import { Component, Input } from '@angular/core';
  *
  * Displays list of filter-items
  */
-export class FilterGroupComponent{
+export class FilterGroupComponent {
   @Input() filter;
 }

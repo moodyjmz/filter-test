@@ -10,13 +10,13 @@ import { HttpClient } from '@angular/common/http';
  * Retrieves product data
  */
 export class ProductService {
-  constructor(private http: HttpClient) {
+  constructor (private http: HttpClient) {
   }
 
   /**
    * Fetch the product json
    */
-  public fetch() {
+  public fetch () {
     return this.http.get(`${environment.productServiceUrl}`);
   }
 

@@ -39,7 +39,7 @@ export class PagerComponent implements OnChanges {
   public endIndex: number;
   public pages: number[];
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges (changes: SimpleChanges) {
     for (const propName in changes) {
       if (changes.hasOwnProperty(propName)) {
         switch (propName) {
@@ -57,7 +57,7 @@ export class PagerComponent implements OnChanges {
    * @param page page to set
    * @returns {void}
    */
-  public setPage(page: number): void {
+  public setPage (page: number): void {
     this.currentPage = page;
     this.updatePager();
   }
@@ -67,28 +67,31 @@ export class PagerComponent implements OnChanges {
    * corresponding to available pages
    * @returns array of numbers
    */
-  generatePages(): number[] {
-    return Array.from({length: ((this.endPage + 1) - this.startPage)}, (v, k) => k + this.startPage);
+  generatePages (): number[] {
+    return Array.from({ length: ((this.endPage + 1) - this.startPage) }, (v, k) => k + this.startPage);
   }
 
   /**
    * Update the pager to pass to the presentation
    * @returns {void}
    */
-  private updatePager(): void {
+  private updatePager (): void {
     this.totalPages = Math.ceil(this.totalItems / this.pageSize);
 
     if (this.totalPages <= this.pagesRange) {
       this.startPage = 1;
       this.endPage = this.totalPages;
-    } else {
+    }
+    else {
       if (this.currentPage <= Math.ceil(this.pagesRange / 2)) {
         this.startPage = 1;
         this.endPage = this.pagesRange;
-      } else if (this.currentPage + 1 >= this.totalPages) {
+      }
+      else if (this.currentPage + 1 >= this.totalPages) {
         this.startPage = this.totalPages - (this.pagesRange - 1);
         this.endPage = this.totalPages;
-      } else {
+      }
+      else {
         const rangeDisplay = Math.floor(this.pagesRange / 2);
         this.startPage = this.currentPage - rangeDisplay;
         this.endPage = this.currentPage + rangeDisplay;
@@ -97,7 +100,7 @@ export class PagerComponent implements OnChanges {
 
     this.startIndex = (this.currentPage - 1) * this.pageSize;
     this.endIndex = Math.min(this.startIndex + this.pageSize - 1, this.totalItems - 1);
-    this.threshold.emit({start: this.startIndex, end: this.endIndex});
+    this.threshold.emit({ start: this.startIndex, end: this.endIndex });
     this.pages = this.generatePages();
   }
 }

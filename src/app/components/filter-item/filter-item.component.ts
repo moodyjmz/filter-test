@@ -35,25 +35,15 @@ export class FilterItemComponent implements OnInit {
    */
   public active = false;
 
-  constructor(private productFilterService: ProductFilterService) {
+  constructor (private productFilterService: ProductFilterService) {
   }
 
-  @HostListener("click") onClick() {
+  @HostListener('click') onClick () {
     this.onItemClick();
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.productFilterService.getFiltersModified().subscribe(this.updateState.bind(this));
-  }
-
-  /**
-   * Update the active and available states of this property
-   * @returns {void}
-   */
-  private updateState(): void {
-    const state = this.productFilterService.getPropertyItemState(this.attr, this.property);
-    this.active = state.active;
-    this.available = state.available;
   }
 
   /**
@@ -62,12 +52,22 @@ export class FilterItemComponent implements OnInit {
    * Calls the Product Filter Service to add or remove property from filter
    * @returns {void}
    */
-  public onItemClick(): void {
+  public onItemClick (): void {
     if (!this.active && !this.available) {
       return;
     }
-    const payload = {key: this.attr, property: this.property};
+    const payload = { key: this.attr, property: this.property };
     const call = this.active ? 'removeFilter' : 'addFilter';
     this.productFilterService[call](payload);
+  }
+
+  /**
+   * Update the active and available states of this property
+   * @returns {void}
+   */
+  private updateState (): void {
+    const state = this.productFilterService.getPropertyItemState(this.attr, this.property);
+    this.active = state.active;
+    this.available = state.available;
   }
 }

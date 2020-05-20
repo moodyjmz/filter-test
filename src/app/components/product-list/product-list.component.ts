@@ -22,7 +22,7 @@ export class ProductListComponent {
    * @param item item object
    * @returns ID of item
    */
-  productTrack(index, item): number {
+  productTrack (index, item): number {
     return item.id;
   }
 

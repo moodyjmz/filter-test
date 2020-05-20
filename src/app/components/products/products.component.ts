@@ -31,10 +31,10 @@ export class ProductsComponent implements OnInit {
    */
   public pageSlice = [];
 
-  constructor(private productService: ProductService, private productFilterService: ProductFilterService) {
+  constructor (private productService: ProductService, private productFilterService: ProductFilterService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.buildFilter();
     this.productService.fetch().subscribe((data: { items }) => {
       this.populateFilter(data.items);
@@ -44,26 +44,26 @@ export class ProductsComponent implements OnInit {
   }
 
   /**
-   * Build the filter from the filter config
-   */
-  private buildFilter(): void {
-    this.productFilterService.setConfig(filterConfig);
-
-  }
-
-  /**
    * Slice filtered data when the pager changes
    * @param threshold
    */
-  public sliceData(threshold): void {
+  public sliceData (threshold): void {
     this.pageSlice = this.filteredProducts.slice(threshold.start, threshold.end);
+  }
+
+  /**
+   * Build the filter from the filter config
+   */
+  private buildFilter (): void {
+    this.productFilterService.setConfig(filterConfig);
+
   }
 
   /**
    * Populate the filter with the data from the product service
    * @param items Items from product service
    */
-  private populateFilter(items): void {
+  private populateFilter (items): void {
     this.productFilterService.setData(items);
   }
 
