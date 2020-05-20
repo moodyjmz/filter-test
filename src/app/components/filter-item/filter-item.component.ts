@@ -1,5 +1,6 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { ProductFilterService } from '../../services/product-filter.service'
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-filter-item',
@@ -12,7 +13,7 @@ import { ProductFilterService } from '../../services/product-filter.service'
  *
  * Connects to {@link ProductFilterService} for updating
  */
-export class FilterItemComponent implements OnInit {
+export class FilterItemComponent implements OnInit, OnDestroy {
   /**
    * Filter property
    */
@@ -35,6 +36,8 @@ export class FilterItemComponent implements OnInit {
    */
   public active = false;
 
+  private stateSubscriber: Subscription;
+
   constructor (private productFilterService: ProductFilterService) {
   }
 
@@ -43,7 +46,7 @@ export class FilterItemComponent implements OnInit {
   }
 
   ngOnInit (): void {
-    this.productFilterService.getFiltersModified().subscribe(this.updateState.bind(this));
+    this.stateSubscriber = this.productFilterService.getFiltersModified().subscribe(this.updateState.bind(this));
   }
 
   /**
@@ -69,5 +72,9 @@ export class FilterItemComponent implements OnInit {
     const state = this.productFilterService.getPropertyItemState(this.attr, this.property);
     this.active = state.active;
     this.available = state.available;
+  }
+
+  ngOnDestroy(): void {
+    this.stateSubscriber.unsubscribe();
   }
 }
