@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 type ThresholdEvent = {
   start: number;
   end: number;
-}
+};
 
 @Component({
   selector: 'app-pager',
@@ -16,9 +16,9 @@ type ThresholdEvent = {
  */
 export class PagerComponent implements OnChanges {
   @Input() totalItems: number;
-  @Input() pageSize: number = 96;
-  @Input() currentPage: number = 1;
-  @Input() pagesRange: number = 5;
+  @Input() pageSize = 96;
+  @Input() currentPage = 1;
+  @Input() pagesRange = 5;
 
   /**
    * Emitter for start and end indexes for data slicing
@@ -55,7 +55,6 @@ export class PagerComponent implements OnChanges {
   /**
    * Set the page number
    * @param page page to set
-   * @returns {void}
    */
   public setPage (page: number): void {
     this.currentPage = page;
@@ -73,7 +72,6 @@ export class PagerComponent implements OnChanges {
 
   /**
    * Update the pager to pass to the presentation
-   * @returns {void}
    */
   private updatePager (): void {
     this.totalPages = Math.ceil(this.totalItems / this.pageSize);

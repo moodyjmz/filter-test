@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { ProductFilterService } from '../../services/product-filter.service'
-import { Observable, Subscription } from 'rxjs';
+import { ProductFilterService } from '../../services/product-filter.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-filter-item',
@@ -53,7 +53,6 @@ export class FilterItemComponent implements OnInit, OnDestroy {
    * Handle a click on this property
    *
    * Calls the Product Filter Service to add or remove property from filter
-   * @returns {void}
    */
   public onItemClick (): void {
     if (!this.active && !this.available) {
@@ -66,7 +65,6 @@ export class FilterItemComponent implements OnInit, OnDestroy {
 
   /**
    * Update the active and available states of this property
-   * @returns {void}
    */
   private updateState (): void {
     const state = this.productFilterService.getPropertyItemState(this.attr, this.property);
@@ -74,7 +72,7 @@ export class FilterItemComponent implements OnInit, OnDestroy {
     this.available = state.available;
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy (): void {
     this.stateSubscriber.unsubscribe();
   }
 }

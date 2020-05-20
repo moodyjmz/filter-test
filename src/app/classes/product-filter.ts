@@ -6,18 +6,18 @@ export type AttributeConfig = {
 export type ProductAttributes = {
   attribute_code: string;
   value: unknown[] | string;
-}
+};
 
 export type Product = {
   id: number;
   price: number;
   custom_attributes: ProductAttributes[]
-}
+};
 
 export type FilterGroup = {
   key: string;
   properties: string[];
-}
+};
 
 /**
  * Map Items to attributes
@@ -76,8 +76,10 @@ export class ProductFilter {
    */
   public get allFilters (): FilterGroup[] {
     const filters = [];
-    for (let key in this.attributeMaps) {
-      filters.push(this.constructFilterGroup(key, this.attributeMaps[key]));
+    for (const key in this.attributeMaps) {
+      if (this.attributeMaps.hasOwnProperty(key)) {
+        filters.push(this.constructFilterGroup(key, this.attributeMaps[key]));
+      }
     }
     return filters;
   }
@@ -105,7 +107,7 @@ export class ProductFilter {
         if (!set.has(item)) {
           candidateItems.delete(item);
         }
-      })
+      });
     });
     return [...candidateItems];
   }
@@ -117,14 +119,16 @@ export class ProductFilter {
    */
   public getAvailableFiltersFromItems (items: Product[]): Map<string, Set<string | number>> {
     const tempFilterGroups = {};
-    for (let key in this.attributeMaps) {
-      // use array as don't care about duplicates
-      // using set is not good as does integrity check each add
-      tempFilterGroups[key] = [];
+    for (const key in this.attributeMaps) {
+      if (this.attributeMaps.hasOwnProperty(key)) {
+        // use array as don't care about duplicates
+        // using set is not good as does integrity check each add
+        tempFilterGroups[key] = [];
+      }
     }
     items.forEach((item: { id }) => {
-      for (let key in tempFilterGroups) {
-        if (this.itemPropertyMap[item.id][key]) {
+      for (const key in tempFilterGroups) {
+        if (tempFilterGroups.hasOwnProperty(key) && this.itemPropertyMap[item.id][key]) {
           this.itemPropertyMap[item.id][key].forEach((prop) => {
             tempFilterGroups[key].push(prop);
           });
@@ -134,7 +138,9 @@ export class ProductFilter {
     const filterGroups = new Map();
     for (const key in tempFilterGroups) {
       // removes dupes in Set
-      filterGroups.set(key, new Set(tempFilterGroups[key]));
+      if (tempFilterGroups.hasOwnProperty(key)) {
+        filterGroups.set(key, new Set(tempFilterGroups[key]));
+      }
     }
     return filterGroups;
   }
@@ -144,12 +150,12 @@ export class ProductFilter {
    * Groups all properties used by filter type
    * @param key Filter name
    * @param attrMap Attribute map to construct from
-   * @returns {@link FilterGroup}
+   * @returns Constructed filter group {@link FilterGroup}
    */
-  private constructFilterGroup (key: string, attrMap: AttributeMap): FilterGroup {
-    const filterGroup: FilterGroup = { key: key, properties: [] };
-    attrMap.forEach((group, key) => {
-      filterGroup.properties.push(key);
+  private constructFilterGroup (key, attrMap: AttributeMap): FilterGroup {
+    const filterGroup: FilterGroup = { key, properties: [] };
+    attrMap.forEach((group, prop) => {
+      filterGroup.properties.push(prop);
     });
     return filterGroup;
   }
@@ -157,7 +163,6 @@ export class ProductFilter {
   /**
    * Create Attribute Maps from config
    * @param config Config to use
-   * @returns {void}
    */
   private createAttributeLookupMaps (config: AttributeConfig[]): void {
     config.forEach(this.createAttributeMap, this);
@@ -166,7 +171,6 @@ export class ProductFilter {
   /**
    * Create Maps for each attribute
    * @param attrConfig Attribute config
-   * @returns {void}
    */
   private createAttributeMap (attrConfig: AttributeConfig): void {
     if (this.attributeMaps[attrConfig.key]) {
@@ -182,7 +186,6 @@ export class ProductFilter {
    * @param attrKey Attribute key
    * @param properties Properties of item to associate
    * @param item Item to place into properties sets
-   * @returns {void}
    */
   private associatePropertiesAndItem (attrKey: string, properties: [], item: Product): void {
     properties.forEach((property) => {
@@ -195,7 +198,6 @@ export class ProductFilter {
    * @param item Item to use
    * @param attrKey Attribute key
    * @param properties Properties to cache
-   * @returns {void}
    */
   private cacheItemProperties (item: Product, attrKey: string, properties: []): void {
     if (!this.itemPropertyMap[item.id]) {
@@ -209,7 +211,6 @@ export class ProductFilter {
    * @param attrMap Attribute Map to use
    * @param property Property key
    * @param item Item to place into property Set
-   * @returns {void}
    */
   private addItemToPropertySet (attrMap: AttributeMap, property: string, item: Product): void {
     // get/has are almost identical, both iterate, so we can save some lookups
@@ -225,7 +226,6 @@ export class ProductFilter {
    * Use config `getValue` handler to extract properties
    * for filter association
    * @param item Item to extract and associate
-   * @returns {void}
    */
   private initItemFilterValues (item: Product): void {
     this.config.forEach((attrConfig: AttributeConfig) => {

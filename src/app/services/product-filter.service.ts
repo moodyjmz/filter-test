@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 type PropertyItemState = {
   active: boolean;
   available: boolean;
-}
+};
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +21,12 @@ export class ProductFilterService {
   /**
    * Internal reference to product data
    */
-  public _data = [];
+  public intData = [];
 
   /**
    * Boolean toogle for firing modification event
    */
-  private _modTracker = true;
+  private modTracker = true;
 
   /**
    * Map of available filters
@@ -72,7 +72,7 @@ export class ProductFilterService {
    */
   setData (data: Product[]): void {
     // This could be a setter
-    this._data = data;
+    this.intData = data;
     this.filter.data = data;
     this.allFiltersSubject.next(this.filter.allFilters);
     this.updateUsedFilters();
@@ -105,7 +105,7 @@ export class ProductFilterService {
 
   /**
    * API to add filter
-   * @param filterConf
+   * @param filterConf Filter configuration to use
    */
   public addFilter (filterConf): void {
     const group = this.getUsedFilterGroup(filterConf.key);
@@ -115,7 +115,7 @@ export class ProductFilterService {
 
   /**
    * API to remove filter
-   * @param filterConf
+   * @param filterConf Filter configuration to use
    */
   public removeFilter (filterConf): void {
     const group = this.getUsedFilterGroup(filterConf.key);
@@ -139,8 +139,8 @@ export class ProductFilterService {
       available = this.isAttributePropertyAvailable(key, property);
     }
     return {
-      active: active,
-      available: available
+      active,
+      available
     };
   }
 
@@ -152,7 +152,7 @@ export class ProductFilterService {
     const arr = [];
     this.activeFilterTracker.forEach((properties, key) => {
       arr.push({
-        key: key,
+        key,
         properties: [...properties]
       });
     });
@@ -196,15 +196,14 @@ export class ProductFilterService {
   /**
    * Filter the product list and update observables
    * @param arr Product list to use for updates
-   * @returns {void}
    */
   private filterProductList (arr): void {
-    const source = arr.length ? this.filter.getFilteredData(arr) : this._data;
+    const source = arr.length ? this.filter.getFilteredData(arr) : this.intData;
     if (this.activeFilterTracker.size) {
       this.availableFilters = this.filter.getAvailableFiltersFromItems(source);
     }
-    this._modTracker = !this._modTracker;
-    this.filtersModifiedSubject.next(this._modTracker);
+    this.modTracker = !this.modTracker;
+    this.filtersModifiedSubject.next(this.modTracker);
     this.filteredProductsSubject.next(source);
 
 

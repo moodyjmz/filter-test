@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProductService } from '../../services/product.service'
-import { ProductFilterService } from '../../services/product-filter.service'
+import { ProductService } from '../../services/product.service';
+import { ProductFilterService } from '../../services/product-filter.service';
 import { filterConfig } from '../../config/filter.config';
 import { Subscription } from 'rxjs';
 
@@ -46,13 +46,17 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.productServiceSubscriber = this.productService.fetch().subscribe((data: { items }) => {
       this.populateFilter(data.items);
     });
-    this.productFilterServiceFiltersSubscriber = this.productFilterService.getAllFilters().subscribe(value => this.allFilters = value);
-    this.productFilterServiceProductsSubscriber = this.productFilterService.getFilteredProducts().subscribe(value => this.filteredProducts = value);
+    this.productFilterServiceFiltersSubscriber = this.productFilterService.getAllFilters().subscribe(
+      value => this.allFilters = value
+    );
+    this.productFilterServiceProductsSubscriber = this.productFilterService.getFilteredProducts().subscribe(
+      value => this.filteredProducts = value
+    );
   }
 
   /**
    * Slice filtered data when the pager changes
-   * @param threshold
+   * @param threshold with start and end indexes
    */
   public sliceData (threshold): void {
     this.pageSlice = this.filteredProducts.slice(threshold.start, threshold.end);

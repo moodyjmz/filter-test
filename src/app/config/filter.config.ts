@@ -10,17 +10,18 @@ const getValueForAttribute = (item, key) => {
   // if this was more than 4x, then it would be worth benching
   // different approaches, as is, the [] loop is probably fastest
   // vs creating a lookup to be used 3x more times
+  // tslint:disable-next-line
   for (let x = 0; x < item.custom_attributes.length; x += 1) {
     if (item.custom_attributes[x].attribute_code === key) {
       return item.custom_attributes[x].value;
     }
   }
-}
+};
 
 const getValueForCommaDelimitedAttribute = (item, key) => {
   const val = getValueForAttribute(item, key);
   return val && val.split(',');
-}
+};
 
 export const filterConfig: AttributeConfig[] = [
   {
@@ -29,10 +30,12 @@ export const filterConfig: AttributeConfig[] = [
       let label = 'Unknown';
       // for in so can break easily
       for (const match in priceHandlerMatches) {
-        const matchDetails = priceHandlerMatches[match];
-        if (item.price >= matchDetails.low && item.price <= matchDetails.high) {
-          label = matchDetails.label;
-          break;
+        if (priceHandlerMatches.hasOwnProperty(match)) {
+          const matchDetails = priceHandlerMatches[match];
+          if (item.price >= matchDetails.low && item.price <= matchDetails.high) {
+            label = matchDetails.label;
+            break;
+          }
         }
       }
       return [label];
