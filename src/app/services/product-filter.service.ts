@@ -62,7 +62,7 @@ export class ProductFilterService {
    * Provide config for ProductFilter
    * @param config FilterConfig to set
    */
-  setConfig (config: AttributeConfig[]):void {
+  setConfig (config: AttributeConfig[]): void {
     this.filter = new ProductFilter(config);
   }
 
