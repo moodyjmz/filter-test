@@ -63,6 +63,10 @@ export class FilterItemComponent implements OnInit, OnDestroy {
     this.productFilterService[call](payload);
   }
 
+  ngOnDestroy (): void {
+    this.stateSubscriber.unsubscribe();
+  }
+
   /**
    * Update the active and available states of this property
    */
@@ -70,9 +74,5 @@ export class FilterItemComponent implements OnInit, OnDestroy {
     const state = this.productFilterService.getPropertyItemState(this.attr, this.property);
     this.active = state.active;
     this.available = state.available;
-  }
-
-  ngOnDestroy (): void {
-    this.stateSubscriber.unsubscribe();
   }
 }

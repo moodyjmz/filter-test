@@ -62,6 +62,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.pageSlice = this.filteredProducts.slice(threshold.start, threshold.end);
   }
 
+  ngOnDestroy (): void {
+    this.productServiceSubscriber.unsubscribe();
+    this.productFilterServiceFiltersSubscriber.unsubscribe();
+    this.productFilterServiceProductsSubscriber.unsubscribe();
+  }
+
   /**
    * Build the filter from the filter config
    */
@@ -76,12 +82,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
    */
   private populateFilter (items): void {
     this.productFilterService.setData(items);
-  }
-
-  ngOnDestroy (): void {
-    this.productServiceSubscriber.unsubscribe();
-    this.productFilterServiceFiltersSubscriber.unsubscribe();
-    this.productFilterServiceProductsSubscriber.unsubscribe();
   }
 
 }
