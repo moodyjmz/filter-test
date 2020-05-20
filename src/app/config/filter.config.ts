@@ -1,3 +1,5 @@
+import { AttributeConfig } from '../classes/product-filter';
+
 const priceHandlerMatches = [
   { low: 0, high: 24, label: 'Under 25' },
   { low: 25, high: 50, label: '25 to 50' },
@@ -20,7 +22,7 @@ const getValueForCommaDelimitedAttribute = (item, key) => {
   return val && val.split(',');
 }
 
-export const filterConfig = [
+export const filterConfig: AttributeConfig[] = [
   {
     key: 'price',
     getValue: (item) => {

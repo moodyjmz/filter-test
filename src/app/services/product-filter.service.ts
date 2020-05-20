@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FilterGroup, Product, ProductFilter } from '../classes/product-filter';
+import { AttributeConfig, FilterGroup, Product, ProductFilter } from '../classes/product-filter';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 type PropertyItemState = {
@@ -62,7 +62,7 @@ export class ProductFilterService {
    * Provide config for ProductFilter
    * @param config FilterConfig to set
    */
-  setConfig (config: []):void {
+  setConfig (config: AttributeConfig[]):void {
     this.filter = new ProductFilter(config);
   }
 

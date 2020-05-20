@@ -1,9 +1,9 @@
-type AttributeConfig = {
+export type AttributeConfig = {
   key: string;
   getValue: (item: Product) => [];
 };
 
-type ProductAttributes = {
+export type ProductAttributes = {
   attribute_code: string;
   value: unknown[] | string;
 }
