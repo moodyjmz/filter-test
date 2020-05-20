@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ProductFilter } from '../classes/product-filter';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { FilterGroup, Product, ProductFilter } from '../classes/product-filter';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 type PropertyItemState = {
   active: boolean;
@@ -32,17 +32,46 @@ export class ProductFilterService {
    * Map of available filters
    */
   private availableFilters = new Map();
+
+  /**
+   * Emits when filters are modified
+   */
   private filtersModifiedSubject = new Subject();
+
+  /**
+   * Emits when filters are changed
+   */
   private allFiltersSubject = new BehaviorSubject([]);
+
+  /**
+   * Emits when products are filtered
+   */
   private filteredProductsSubject = new BehaviorSubject([]);
+
+  /**
+   * Internal track of filters
+   */
   private activeFilterTracker = new Map();
+
+  /**
+   * Reference to filter engine
+   */
   private filter: ProductFilter;
 
-  setConfig (config) {
+  /**
+   * Provide config for ProductFilter
+   * @param config FilterConfig to set
+   */
+  setConfig (config: []):void {
     this.filter = new ProductFilter(config);
   }
 
-  setData (data) {
+  /**
+   * Set the data
+   * @param data Product Data to set
+   */
+  setData (data: Product[]): void {
+    // This could be a setter
     this._data = data;
     this.filter.data = data;
     this.allFiltersSubject.next(this.filter.allFilters);
@@ -50,25 +79,45 @@ export class ProductFilterService {
 
   }
 
-  getAllFilters () {
+  /**
+   * Provides observable list of filters
+   * @returns Observable filters
+   */
+  getAllFilters (): Observable<FilterGroup[]> {
     return this.allFiltersSubject.asObservable();
   }
 
-  getFilteredProducts () {
+  /**
+   * Provides filtered products
+   * @returns Observable products
+   */
+  getFilteredProducts (): Observable<Product[]> {
     return this.filteredProductsSubject.asObservable();
   }
 
-  getFiltersModified () {
+  /**
+   * Provides filtered trigger
+   * @returns Observable modified filter trigger
+   */
+  getFiltersModified (): Observable<unknown> {
     return this.filtersModifiedSubject.asObservable();
   }
 
-  public addFilter (filterConf) {
+  /**
+   * API to add filter
+   * @param filterConf
+   */
+  public addFilter (filterConf): void {
     const group = this.getUsedFilterGroup(filterConf.key);
     group.add(filterConf.property);
     this.updateUsedFilters();
   }
 
-  public removeFilter (filterConf) {
+  /**
+   * API to remove filter
+   * @param filterConf
+   */
+  public removeFilter (filterConf): void {
     const group = this.getUsedFilterGroup(filterConf.key);
     group.delete(filterConf.property);
     if (group.size === 0) {
@@ -77,6 +126,12 @@ export class ProductFilterService {
     this.updateUsedFilters();
   }
 
+  /**
+   * API to get property item state
+   * @param key filter key
+   * @param key filter property
+   * @returns active and available states of property
+   */
   public getPropertyItemState (key, property): PropertyItemState {
     const active = this.isAttributePropertyActive(key, property);
     let available = true;
@@ -89,7 +144,11 @@ export class ProductFilterService {
     };
   }
 
-  private updateUsedFilters () {
+  /**
+   * Update the used filters
+   * @returns Array of filter
+   */
+  private updateUsedFilters (): FilterGroup[] {
     const arr = [];
     this.activeFilterTracker.forEach((properties, key) => {
       arr.push({
@@ -101,14 +160,29 @@ export class ProductFilterService {
     return arr;
   }
 
-  private isAttributePropertyActive (key, property) {
-    const keyMap = this.activeFilterTracker.get(key);
-    if (keyMap !== undefined) {
-      return keyMap.has(property);
+  /**
+   * Get property active state
+   * @param key Filter key
+   * @param property Property value
+   * @return Active state
+   */
+  private isAttributePropertyActive (key, property): boolean {
+    // Could be shared with Attr checker
+    if (this.activeFilterTracker.size) {
+      const keyMap = this.activeFilterTracker.get(key);
+      if (keyMap !== undefined) {
+        return keyMap.has(property);
+      }
     }
     return false;
   }
 
+  /**
+   * Get property available state
+   * @param key Filter key
+   * @param property Property value
+   * @return Available state
+   */
   private isAttributePropertyAvailable (key, property) {
     if (this.activeFilterTracker.size) {
       const propSet = this.availableFilters.get(key);
@@ -119,7 +193,12 @@ export class ProductFilterService {
     return true;
   }
 
-  private filterProductList (arr) {
+  /**
+   * Filter the product list and update observables
+   * @param arr Product list to use for updates
+   * @return {void}
+   */
+  private filterProductList (arr): void {
     const source = arr.length ? this.filter.getFilteredData(arr) : this._data;
     if (this.activeFilterTracker.size) {
       this.availableFilters = this.filter.getAvailableFiltersFromItems(source);
@@ -131,8 +210,12 @@ export class ProductFilterService {
 
   }
 
-
-  private getUsedFilterGroup (key) {
+  /**
+   * Get the filter group for a key
+   * @param key filter attribute key
+   * @return Filter group for key
+   */
+  private getUsedFilterGroup (key): Set<FilterGroup> {
     let group = this.activeFilterTracker.get(key);
     if (group === undefined) {
       this.activeFilterTracker.set(key, new Set());

@@ -8,7 +8,7 @@ type ProductAttributes = {
   value: unknown[] | string;
 }
 
-type Product = {
+export type Product = {
   id: number;
   price: number;
   custom_attributes: ProductAttributes[]
