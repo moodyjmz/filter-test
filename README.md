@@ -1,3 +1,7 @@
+Needs http-server to run,
+
+run using `npm run pwa`
+
 The task is to create a product-list with filters in angular. The data you are
 using is here a plain json file, which is holding ALL products (2046) from a
 default magento 2 store with demodata installed. You dont have to take care of
