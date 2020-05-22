@@ -9,9 +9,34 @@
   <meta content="#1976d2" name="theme-color">
   <link href="manifest.webmanifest" rel="manifest">
   <meta content="#1976d2" name="theme-color">
+  <style>
+    .loader-holder {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .loader {
+      border: 10px solid darkslateblue;
+      border-radius: 50%;
+      border-top: 10px solid gray;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-<app-root></app-root>
+<app-root>
+  <div class="loader-holder">
+    <div class="loader"></div>
+  </div>
+</app-root>
 <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 </html>

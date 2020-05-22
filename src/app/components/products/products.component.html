@@ -1,10 +1,19 @@
-<div class="product-filters">
-  <app-filters [filters]="allFilters"></app-filters>
+<div *ngIf="!loaded" class="loader-holder">
+  <div class="loader"></div>
+  <div class="loader-info">Loading Product Data...</div>
 </div>
-<div class="product-list">
-  <app-product-list [products]="pageSlice"></app-product-list>
-  <div class="pager">
-    <app-pager (threshold)="sliceData($event)" [totalItems]="filteredProducts.length"></app-pager>
+
+<ng-template [ngIf]="loaded">
+  <div class="product-filters">
+    <app-filters *ngIf="loaded" [filters]="allFilters"></app-filters>
   </div>
-</div>
+  <div class="product-list">
+    <app-product-list [products]="pageSlice"></app-product-list>
+    <div class="pager">
+      <app-pager (threshold)="sliceData($event)" [totalItems]="filteredProducts.length"></app-pager>
+    </div>
+  </div>
+</ng-template>
+
+
 

@@ -1,6 +1,37 @@
 :host {
+  .loader-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    height: 100vh;
+  }
+
+  .loader {
+    border: 10px solid darkslateblue;
+    border-radius: 50%;
+    border-top: 10px solid gray;
+    width: 30px;
+    height: 30px;
+    animation: spin .5s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loader-info {
+    margin-top: 5px;
+  }
+
   .product-filters {
     position: fixed;
+    min-width: 100px;
   }
 
   .product-list {

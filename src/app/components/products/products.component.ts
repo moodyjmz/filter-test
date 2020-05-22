@@ -32,6 +32,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
    */
   public pageSlice = [];
 
+  public loaded = false;
+
   private productServiceSubscriber: Subscription;
 
   private productFilterServiceFiltersSubscriber: Subscription;
@@ -82,6 +84,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
    */
   private populateFilter (items): void {
     this.productFilterService.setData(items);
+    this.loaded = true;
   }
 
 }
