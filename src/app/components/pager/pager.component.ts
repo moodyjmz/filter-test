@@ -97,7 +97,7 @@ export class PagerComponent implements OnChanges {
     }
 
     this.startIndex = (this.currentPage - 1) * this.pageSize;
-    this.endIndex = Math.min(this.startIndex + this.pageSize - 1, this.totalItems - 1);
+    this.endIndex = Math.min(this.startIndex + (this.pageSize - 1), this.totalItems);
     this.threshold.emit({ start: this.startIndex, end: this.endIndex });
     this.pages = this.generatePages();
   }
