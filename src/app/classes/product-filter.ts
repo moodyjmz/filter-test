@@ -58,7 +58,6 @@ export class ProductFilter {
 
   constructor (config: AttributeConfig[]) {
     this.config = config;
-    this.createAttributeLookupMaps(config);
   }
 
   /**
@@ -66,6 +65,7 @@ export class ProductFilter {
    * @param data Product items
    */
   public set data (data) {
+    this.initMaps();
     // console.time('PF import');
     data.forEach(this.initItemFilterValues, this);
     // console.timeEnd('PF import');
@@ -181,6 +181,14 @@ export class ProductFilter {
     }
   }
 
+  /**
+   * Clear existing maps
+   */
+  private initMaps(): void {
+    this.itemPropertyMap = {};
+    this.createAttributeLookupMaps(this.config);
+
+  }
   /**
    * Associates items with property set inside attribute maps
    * @param attrKey Attribute key
